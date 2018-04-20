@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 
 #include "GraphMatrix.h"
 
@@ -12,14 +13,19 @@ void displayGraphMatrixAsList(GraphMatrix *gm);
 
 void fillGraphMatrix(GraphMatrix *&gm);
 
+void randData(int countOfVertexs, int density, GraphMatrix *&gm);
+
 int main() {
-	GraphMatrix *gm = new GraphMatrix(5, false);
+	srand(time(NULL));
+	GraphMatrix *gm;
 
 	fillGraphMatrix(gm);
 
-	displayGraphMatrixAsMatrix(*&gm);
+	randData(5, 99, gm);
+
+	//displayGraphMatrixAsMatrix(*&gm);
 	cout << "\n\n\n\n\n";
-	displayGraphMatrixAsList(*&gm);
+	//displayGraphMatrixAsList(*&gm);
 	cout << "\n\n\n\n\n";
 
 	int x;
@@ -89,5 +95,23 @@ void fillGraphMatrix(GraphMatrix *&gm) {
 		myfile.close();
 	}
 	else cout << "plik sie nie wczytal\n";
+}
+
+void randData(int countOfVertexs, int density, GraphMatrix *&gm) {
+	int countOfEdges = (((countOfVertexs * (countOfVertexs - 1)) / 2) * density) / 100;
+	gm = new GraphMatrix(countOfVertexs, false);
+
+	while (countOfEdges > 0) {
+		int randV1 = rand() % countOfVertexs;
+		int randV2 = rand() % countOfVertexs;
+
+		if (randV1 != randV2) {
+			if (gm->search(randV1, randV2) == 0 && gm->search(randV2, randV1) == 0) {
+				int randWeight = rand() % 100 + 1;
+				gm->insert(randV1, randV2, randWeight);
+				countOfEdges--;
+			}
+		}
+	}
 }
 

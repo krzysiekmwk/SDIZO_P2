@@ -18,7 +18,7 @@ void GraphList::insert(int srcVertex, int dstVertex, int weight) {
 }
 
 int GraphList::search(int srcVertex, int dstVertex) {
-
+	return 0;
 }
 
 void GraphList::setSimetric(bool sim) {
