@@ -1,8 +1,9 @@
 #pragma once
-class GraphIncidenceMatrix
-{
+#include "Graph.h"
+
+class GraphIncidenceMatrix : public Graph {
 public:
-	GraphIncidenceMatrix(int vertex, int edges,bool simetric);
+	GraphIncidenceMatrix(int vertex, int edges, bool simetric);
 	~GraphIncidenceMatrix();
 	void insert(int srcVertex, int dstVertex, int weight);
 	int searchWeight(int srcVertex, int dstVertex);

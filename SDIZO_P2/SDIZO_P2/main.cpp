@@ -5,39 +5,46 @@
 
 #include "GraphMatrix.h"
 #include "GraphIncidenceMatrix.h"
-
+#include "GraphList.h"
+#include "Graph.h"
 
 using namespace std;
 
-void displayGraphMatrixAsMatrix(GraphIncidenceMatrix *gm);
-void displayGraphMatrixAsList(GraphIncidenceMatrix *gm);
+void displayGraphAsMatrix(Graph *gm);
+void displayGraphAsList(Graph *gm);
+void displayIncidenceGraph(GraphIncidenceMatrix *gm);
 
-void fillGraphMatrix(GraphIncidenceMatrix *&gm);
+void fillGraphMatrix(Graph *&gm);
 
-void randData(int countOfVertexs, int density, GraphIncidenceMatrix *&gm);
+void randData(int countOfVertexs, int density, Graph *&gm);
 
 bool directed = true; // Czy graf ma byc skierowany czy nie
+bool isGraphList = false; //ustawienie czy ma byc to graf listowy czy incydencji
 
 int main() {
 	srand(time(NULL));
-	GraphIncidenceMatrix *gm;
+	Graph *gm;
 
 	fillGraphMatrix(gm);
 	cout << "\n\n";
-	displayGraphMatrixAsMatrix(*&gm);
+	displayGraphAsMatrix(*&gm);
 	cout << "\n\n\n\n\n";
-	displayGraphMatrixAsList(*&gm);
+	displayGraphAsList(*&gm);
 	cout << "\n\n\n\n\n";
 
 	delete gm;
 	randData(5, 50, gm);
+	displayGraphAsMatrix(*&gm);
+	cout << "\n\n\n\n\n";
+	displayGraphAsList(*&gm);
+	cout << "\n\n\n\n\n";
 
 	int x;
 	cin >> x;
 	return 0;
 }
 
-void displayGraphMatrixAsMatrix(GraphIncidenceMatrix *gm) {
+void displayIncidenceGraph(GraphIncidenceMatrix *gm) {
 	//Wyswietlenie macierzy incydencji
 	cout << "\t";
 	for (int j = 0; j < gm->getEdges(); j++) {
@@ -54,7 +61,9 @@ void displayGraphMatrixAsMatrix(GraphIncidenceMatrix *gm) {
 	}
 
 	cout << "\n\n";
+}
 
+void displayGraphAsMatrix(Graph *gm) {
 	//Wyswietlenie jak w macierzy sasiedztwa - pokazanie ich wag
 	cout << "\t";
 	for (int j = 0; j < gm->getVertex(); j++) {
@@ -71,7 +80,7 @@ void displayGraphMatrixAsMatrix(GraphIncidenceMatrix *gm) {
 	}
 }
 
-void displayGraphMatrixAsList(GraphIncidenceMatrix *gm) {
+void displayGraphAsList(Graph *gm) {
 	for (int i = 0; i < gm->getVertex(); i++) {
 		for (int j = 0; j < gm->getVertex(); j++) {
 			int value = gm->searchWeight(i, j);
@@ -82,7 +91,7 @@ void displayGraphMatrixAsList(GraphIncidenceMatrix *gm) {
 	}
 }
 
-void fillGraphMatrix(GraphIncidenceMatrix *&gm) {
+void fillGraphMatrix(Graph *&gm) {
 	string firstLine;
 	string vertex;
 	string edges;
@@ -94,9 +103,10 @@ void fillGraphMatrix(GraphIncidenceMatrix *&gm) {
 		edges = firstLine.substr(0, pos);
 		vertex = firstLine.substr(pos);
 
-		//cout << edges << "\t" << vertex << endl;
-
-		gm = new GraphIncidenceMatrix(atoi(vertex.c_str()), atoi(edges.c_str()), directed);
+		if(isGraphList)
+			gm = new GraphList(atoi(vertex.c_str()), atoi(edges.c_str()), directed);
+		else
+			gm = new GraphIncidenceMatrix(atoi(vertex.c_str()), atoi(edges.c_str()), directed);
 
 		for (int i = 0; i < atoi(edges.c_str()); i++) {
 			string line;
@@ -110,7 +120,6 @@ void fillGraphMatrix(GraphIncidenceMatrix *&gm) {
 			dstVertex = line.substr(pos, pos + 2);
 			weight = line.substr(pos + 2);
 
-			//cout << srcVertex << "\t" << dstVertex << "\t" << weight << "\t" << endl;
 			gm->insert(atoi(srcVertex.c_str()), atoi(dstVertex.c_str()), atoi(weight.c_str()));
 		}
 
@@ -119,7 +128,7 @@ void fillGraphMatrix(GraphIncidenceMatrix *&gm) {
 	else cout << "plik sie nie wczytal\n";
 }
 
-void randData(int countOfVertexs, int density, GraphIncidenceMatrix *&gm) {
+void randData(int countOfVertexs, int density, Graph *&gm) {
 	int countOfEdges = (((countOfVertexs * (countOfVertexs - 1)) / 2) * density) / 100;
 	int minCountOfEdges = countOfVertexs - 1;
 
@@ -127,7 +136,11 @@ void randData(int countOfVertexs, int density, GraphIncidenceMatrix *&gm) {
 		countOfEdges = minCountOfEdges;
 	countOfEdges = countOfEdges - minCountOfEdges; //Ilosc polaczen pozostala do wylosowania, po tym jak graf juz bedzie spojny
 
-	gm = new GraphIncidenceMatrix(countOfVertexs, countOfEdges + minCountOfEdges, directed);
+	if (isGraphList)
+		gm = new GraphList(countOfVertexs, countOfEdges + minCountOfEdges, directed);
+	else
+		gm = new GraphIncidenceMatrix(countOfVertexs, countOfEdges + minCountOfEdges, directed);
+	
 
 	/*****Najpierw tworzymy minimalny graf spojny dla N-1********/
 	int *vertexTab = new int[countOfVertexs];	//Tablica przechowujaca ile wierzcholkow ma juz jakies polaczenie z czyms

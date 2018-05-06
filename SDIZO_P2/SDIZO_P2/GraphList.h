@@ -1,3 +1,6 @@
+#pragma once
+#include "Graph.h"
+
 class Vertex {
 public:
 	Vertex();
@@ -6,7 +9,7 @@ public:
 	int weight;
 };
 
-class GraphList{
+class GraphList : public Graph{
 
 public:
 
@@ -22,8 +25,6 @@ public:
 private:
 	int vertex, edges;       // liczba wierzcholkow i krawedzi
 	bool simetric; 
-
-	Vertex *vPrev, *vNext, *uPrev, *uNext;
 
 	Vertex **GLists;     // tablica wskazników na listy wierzcho³ków  
 };
