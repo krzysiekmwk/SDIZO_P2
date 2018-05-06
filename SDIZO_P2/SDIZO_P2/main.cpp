@@ -4,25 +4,32 @@
 #include <ctime>
 
 #include "GraphMatrix.h"
+#include "GraphIncidenceMatrix.h"
 
 
 using namespace std;
 
-void displayGraphMatrixAsMatrix(GraphMatrix *gm);
-void displayGraphMatrixAsList(GraphMatrix *gm);
+void displayGraphMatrixAsMatrix(GraphIncidenceMatrix *gm);
+void displayGraphMatrixAsList(GraphIncidenceMatrix *gm);
 
-void fillGraphMatrix(GraphMatrix *&gm);
+void fillGraphMatrix(GraphIncidenceMatrix *&gm);
 
-void randData(int countOfVertexs, int density, GraphMatrix *&gm);
+void randData(int countOfVertexs, int density, GraphIncidenceMatrix *&gm);
 
 bool directed = false; // Czy graf ma byc skierowany czy nie
 
 int main() {
 	srand(time(NULL));
-	GraphMatrix *gm;
+	GraphIncidenceMatrix *gm;
 
 	fillGraphMatrix(gm);
+	cout << "\n\n";
+	displayGraphMatrixAsMatrix(*&gm);
+	cout << "\n\n\n\n\n";
+	displayGraphMatrixAsList(*&gm);
+	cout << "\n\n\n\n\n";
 
+	delete gm;
 	randData(5, 50, gm);
 	cout << "\n\n";
 	displayGraphMatrixAsMatrix(*&gm);
@@ -35,7 +42,25 @@ int main() {
 	return 0;
 }
 
-void displayGraphMatrixAsMatrix(GraphMatrix *gm) {
+void displayGraphMatrixAsMatrix(GraphIncidenceMatrix *gm) {
+	//Wyswietlenie macierzy incydencji
+	cout << "\t";
+	for (int j = 0; j < gm->getEdges(); j++) {
+		cout << j << "\t";
+	}
+	cout << endl;
+
+	for (int i = 0; i < gm->getVertex(); i++) {
+		cout << i << "\t";
+		for (int j = 0; j < gm->getEdges(); j++) {
+			cout << gm->getMatrix()[i][j] << "\t";
+		}
+		cout << endl;
+	}
+
+	cout << "\n\n";
+
+	//Wyswietlenie jak w macierzy sasiedztwa - pokazanie ich wag
 	cout << "\t";
 	for (int j = 0; j < gm->getVertex(); j++) {
 		cout << j << "\t";
@@ -45,16 +70,16 @@ void displayGraphMatrixAsMatrix(GraphMatrix *gm) {
 	for (int i = 0; i < gm->getVertex(); i++) {
 		cout << i << "\t";
 		for (int j = 0; j < gm->getVertex(); j++) {
-			cout << gm->search(i, j) << "\t";
+			cout << gm->searchWeight(i, j) << "\t";
 		}
 		cout << endl;
 	}
 }
 
-void displayGraphMatrixAsList(GraphMatrix *gm) {
+void displayGraphMatrixAsList(GraphIncidenceMatrix *gm) {
 	for (int i = 0; i < gm->getVertex(); i++) {
 		for (int j = 0; j < gm->getVertex(); j++) {
-			int value = gm->search(i, j);
+			int value = gm->searchWeight(i, j);
 			if (value > 0) {
 				cout << i << "\t" << j << "\t" << value << "\t" << endl;
 			}
@@ -62,7 +87,7 @@ void displayGraphMatrixAsList(GraphMatrix *gm) {
 	}
 }
 
-void fillGraphMatrix(GraphMatrix *&gm) {
+void fillGraphMatrix(GraphIncidenceMatrix *&gm) {
 	string firstLine;
 	string vertex;
 	string edges;
@@ -76,7 +101,7 @@ void fillGraphMatrix(GraphMatrix *&gm) {
 
 		//cout << edges << "\t" << vertex << endl;
 
-		gm = new GraphMatrix(atoi(vertex.c_str()), directed);
+		gm = new GraphIncidenceMatrix(atoi(vertex.c_str()), atoi(edges.c_str()), directed);
 
 		for (int i = 0; i < atoi(edges.c_str()); i++) {
 			string line;
@@ -99,7 +124,7 @@ void fillGraphMatrix(GraphMatrix *&gm) {
 	else cout << "plik sie nie wczytal\n";
 }
 
-void randData(int countOfVertexs, int density, GraphMatrix *&gm) {
+void randData(int countOfVertexs, int density, GraphIncidenceMatrix *&gm) {
 	int countOfEdges = (((countOfVertexs * (countOfVertexs - 1)) / 2) * density) / 100;
 	int minCountOfEdges = countOfVertexs - 1;
 
@@ -107,7 +132,7 @@ void randData(int countOfVertexs, int density, GraphMatrix *&gm) {
 		countOfEdges = minCountOfEdges;
 	countOfEdges = countOfEdges - minCountOfEdges; //Ilosc polaczen pozostala do wylosowania, po tym jak graf juz bedzie spojny
 
-	gm = new GraphMatrix(countOfVertexs, directed);
+	gm = new GraphIncidenceMatrix(countOfVertexs, countOfEdges + minCountOfEdges, directed);
 
 	/*****Najpierw tworzymy minimalny graf spojny dla N-1********/
 	int *vertexTab = new int[countOfVertexs];	//Tablica przechowujaca ile wierzcholkow ma juz jakies polaczenie z czyms
@@ -155,7 +180,7 @@ void randData(int countOfVertexs, int density, GraphMatrix *&gm) {
 		randV2 = rand() % countOfVertexs;
 
 		if (randV1 != randV2) {
-			if (gm->search(randV1, randV2) == 0 && gm->search(randV2, randV1) == 0) {
+			if (gm->searchWeight(randV1, randV2) == 0 && gm->searchWeight(randV2, randV1) == 0) {
 				randWeight = rand() % 100 + 1;
 				gm->insert(randV1, randV2, randWeight);
 				countOfEdges--;
