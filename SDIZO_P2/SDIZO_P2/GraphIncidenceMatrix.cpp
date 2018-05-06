@@ -35,12 +35,12 @@ void GraphIncidenceMatrix::insert(int srcVertex, int dstVertex, int weight) {
 int GraphIncidenceMatrix::searchWeight(int srcVertex, int dstVertex) {
 	for (int i = 0; i < edges; i++) {
 		if (!simetric) {
-			if (matrix[srcVertex][i] == START && matrix[dstVertex][i] == END) {
+			if (matrix[srcVertex][i] == START && matrix[dstVertex][i] == END && srcVertex != dstVertex) {
 				return weights[i];
 			}
 		}
 		else {
-			if (matrix[srcVertex][i] == START && matrix[dstVertex][i] == START) {
+			if (matrix[srcVertex][i] == START && matrix[dstVertex][i] == START && srcVertex != dstVertex) {
 				return weights[i];
 			}
 		}

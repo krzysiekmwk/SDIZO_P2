@@ -16,7 +16,7 @@ void fillGraphMatrix(GraphIncidenceMatrix *&gm);
 
 void randData(int countOfVertexs, int density, GraphIncidenceMatrix *&gm);
 
-bool directed = false; // Czy graf ma byc skierowany czy nie
+bool directed = true; // Czy graf ma byc skierowany czy nie
 
 int main() {
 	srand(time(NULL));
@@ -31,11 +31,6 @@ int main() {
 
 	delete gm;
 	randData(5, 50, gm);
-	cout << "\n\n";
-	displayGraphMatrixAsMatrix(*&gm);
-	cout << "\n\n\n\n\n";
-	displayGraphMatrixAsList(*&gm);
-	cout << "\n\n\n\n\n";
 
 	int x;
 	cin >> x;
