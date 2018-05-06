@@ -26,6 +26,15 @@ void GraphList::insert(int srcVertex, int dstVertex, int weight) {
 	element->next = GLists[srcVertex];	//Tworzenie listy nastepnikow <-prev || next -> next -> null
 
 	GLists[srcVertex] = element;
+
+	if (simetric) {
+		Vertex * element = new Vertex;
+		element->weight = weight;
+		element->vertex = srcVertex;
+		element->next = GLists[dstVertex];	//Tworzenie listy nastepnikow <-prev || next -> next -> null
+
+		GLists[dstVertex] = element;
+	}
 }
 
 int GraphList::searchWeight(int srcVertex, int dstVertex) {
