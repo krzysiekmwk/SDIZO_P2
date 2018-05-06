@@ -1,23 +1,27 @@
 class Vertex {
-
+public:
+	Vertex();
+	Vertex * next;
+	int vertex;
+	int weight;
 };
 
 class GraphList{
 
 public:
 
-	GraphList(int vertex, bool simetric);
+	GraphList(int vertex, int edges, bool simetric);
 	~GraphList();
 	void insert(int srcVertex, int dstVertex, int weight);
-	int search(int srcVertex, int dstVertex);
+	int searchWeight(int srcVertex, int dstVertex);
 	void setSimetric(bool sim);
 	int getVertex();
+	int getEdges();
 	void clear();
 
 private:
-	int vertex, edge;       // liczba wierzcholkow i krawedzi
-	bool simetric;
-	int **matrix; // macierz  
+	int vertex, edges;       // liczba wierzcholkow i krawedzi
+	bool simetric; 
 
 	Vertex *vPrev, *vNext, *uPrev, *uNext;
 
