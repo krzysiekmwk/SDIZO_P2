@@ -1,8 +1,6 @@
 #pragma once
-class GraphMatrix
-{
+class GraphMatrix {
 public:
-
 	GraphMatrix(int vertex, bool simetric);
 	~GraphMatrix();
 	void insert(int srcVertex, int dstVertex, int weight);

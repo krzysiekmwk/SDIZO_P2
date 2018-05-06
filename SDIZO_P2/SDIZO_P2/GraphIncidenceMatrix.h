@@ -3,6 +3,7 @@
 
 class GraphIncidenceMatrix : public Graph {
 public:
+	GraphIncidenceMatrix();
 	GraphIncidenceMatrix(int vertex, int edges, bool simetric);
 	~GraphIncidenceMatrix();
 	void insert(int srcVertex, int dstVertex, int weight);
@@ -12,6 +13,7 @@ public:
 	int getVertex();
 	int getEdges();
 	void clear();
+	void setGraph(int vertex, int edges, bool simetric);
 
 private:
 	int vertex, edges;       // liczba wierzcholkow i krawedzi

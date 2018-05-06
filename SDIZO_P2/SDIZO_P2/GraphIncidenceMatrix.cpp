@@ -1,10 +1,16 @@
 #include "GraphIncidenceMatrix.h"
 
+GraphIncidenceMatrix::GraphIncidenceMatrix() {}
+
 GraphIncidenceMatrix::GraphIncidenceMatrix(int vertex, int edges, bool simetric) {
+	setGraph(vertex, edges, simetric);
+}
+
+void GraphIncidenceMatrix::setGraph(int vertex, int edges, bool simetric) {
 	this->vertex = vertex;
 	this->edges = edges;
 	this->simetric = simetric;
-	
+
 	//Tworzenie macierzy incydencji. Najpierw tablica wierzcholkow, a potem tablica krawedzi
 	matrix = new int *[vertex];
 	for (int i = 0; i < vertex; i++) {

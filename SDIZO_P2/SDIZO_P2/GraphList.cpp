@@ -5,12 +5,18 @@ Vertex::Vertex() {
 	next = nullptr;
 }
 
+GraphList::GraphList(){}
+
 GraphList::GraphList(int vertex, int edges, bool simetric) {
+	setGraph(vertex, edges, simetric);
+}
+
+void GraphList::setGraph(int vertex, int edges, bool simetric) {
 	this->vertex = vertex;
 	this->simetric = simetric;
 	this->edges = edges;
 
-	GLists = new Vertex * [vertex];
+	GLists = new Vertex *[vertex];
 	for (int i = 0; i < vertex; i++)
 		GLists[i] = nullptr;
 }

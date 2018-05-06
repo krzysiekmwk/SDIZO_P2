@@ -10,9 +10,8 @@ public:
 };
 
 class GraphList : public Graph{
-
 public:
-
+	GraphList();
 	GraphList(int vertex, int edges, bool simetric);
 	~GraphList();
 	void insert(int srcVertex, int dstVertex, int weight);
@@ -21,6 +20,7 @@ public:
 	int getVertex();
 	int getEdges();
 	void clear();
+	void setGraph(int vertex, int edges, bool simetric);
 
 private:
 	int vertex, edges;       // liczba wierzcholkow i krawedzi
