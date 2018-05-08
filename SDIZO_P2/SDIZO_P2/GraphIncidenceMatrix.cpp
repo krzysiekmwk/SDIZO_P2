@@ -59,18 +59,6 @@ int ** GraphIncidenceMatrix::getMatrix() {
 	return matrix;
 }
 
-void GraphIncidenceMatrix::setSimetric(bool sim) {
-	simetric = sim;
-}
-
-int GraphIncidenceMatrix::getVertex() {
-	return vertex;
-}
-
-int GraphIncidenceMatrix::getEdges() {
-	return edges;
-}
-
 void GraphIncidenceMatrix::clear() {
 	for (int i = 0; i < vertex; ++i)
 		delete[] matrix[i];

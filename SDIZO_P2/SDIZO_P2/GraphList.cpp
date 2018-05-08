@@ -55,19 +55,6 @@ int GraphList::searchWeight(int srcVertex, int dstVertex) {
 	return 0;
 }
 
-void GraphList::setSimetric(bool sim) {
-	simetric = sim;
-}
-
-int GraphList::getVertex() {
-	return vertex;
-}
-
-
-int GraphList::getEdges() {
-	return edges;
-}
-
 void GraphList::clear() {
 	for (int i = 0; i < vertex; i++) {
 		Vertex * element = GLists[i];
