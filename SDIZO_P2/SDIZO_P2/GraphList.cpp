@@ -55,6 +55,24 @@ int GraphList::searchWeight(int srcVertex, int dstVertex) {
 	return 0;
 }
 
+std::vector<Edge> GraphList::getConectedVertex(int vertex) {
+	std::vector<Edge> list;
+
+	Vertex * element = GLists[vertex]; //Wskazanie na pierwszy element listy
+	while (element) {
+		Edge e;
+		e.v1 = vertex;
+		e.v2 = element->vertex;
+		e.weight = element->weight;
+		
+		list.push_back(e);
+
+		element = element->next;
+	}
+
+	return list;
+}
+
 void GraphList::clear() {
 	for (int i = 0; i < vertex; i++) {
 		Vertex * element = GLists[i];

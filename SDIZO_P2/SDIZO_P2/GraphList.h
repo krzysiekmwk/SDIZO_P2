@@ -1,5 +1,7 @@
 #pragma once
 #include "Graph.h"
+#include "Edge.h"
+#include <vector>
 
 class Vertex {
 public:
@@ -18,6 +20,7 @@ public:
 	int searchWeight(int srcVertex, int dstVertex);
 	void clear();
 	void setGraph(int vertex, int edges, bool simetric);
+	std::vector<Edge> getConectedVertex(int vertex);
 
 private:
 	Vertex **GLists;     // tablica wskazników na listy wierzcho³ków  
