@@ -14,11 +14,9 @@ void displayGraphAsMatrix(Graph *gm);
 void displayGraphAsList(Graph *gm);
 void displayIncidenceGraph(GraphIncidenceMatrix *gim);
 
-void fillGraphMatrix(Graph *&gm);
+void fillGraphMatrix(Graph *&gm, bool directed);
 
-void randData(int countOfVertexs, int density, Graph *&gm);
-
-bool directed = false; // Czy graf ma byc skierowany czy nie
+void randData(int countOfVertexs, int density, Graph *&gm, bool directed);
 
 int main() {
 	srand(time(NULL));
@@ -29,7 +27,7 @@ int main() {
 
 	gm = gl;
 	
-	fillGraphMatrix(gm);
+	fillGraphMatrix(gm, false);
 
 	cout << "\n\n";
 	displayGraphAsMatrix(gl);
@@ -39,7 +37,7 @@ int main() {
 
 	gm = gim;
 
-	randData(5, 50, gm);
+	randData(5, 50, gm, false);
 	displayGraphAsMatrix(gim);
 	cout << "\n\n\n\n\n";
 	displayGraphAsList(gim);
@@ -98,7 +96,7 @@ void displayGraphAsList(Graph *gm) {
 	}
 }
 
-void fillGraphMatrix(Graph *&gm) {
+void fillGraphMatrix(Graph *&gm, bool directed) {
 	string firstLine;
 	string vertex;
 	string edges;
@@ -132,7 +130,7 @@ void fillGraphMatrix(Graph *&gm) {
 	else cout << "plik sie nie wczytal\n";
 }
 
-void randData(int countOfVertexs, int density, Graph *&gm) {
+void randData(int countOfVertexs, int density, Graph *&gm, bool directed) {
 	int countOfEdges = (((countOfVertexs * (countOfVertexs - 1)) / 2) * density) / 100;
 	int minCountOfEdges = countOfVertexs - 1;
 
