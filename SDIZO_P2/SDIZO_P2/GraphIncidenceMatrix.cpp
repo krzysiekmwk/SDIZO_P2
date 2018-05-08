@@ -72,12 +72,12 @@ int GraphIncidenceMatrix::getEdges() {
 }
 
 void GraphIncidenceMatrix::clear() {
-	vertex = 0;
-	edges = 0;
-
 	for (int i = 0; i < vertex; ++i)
 		delete[] matrix[i];
 	delete[] matrix;
 
 	delete[] weights;
+
+	vertex = 0;
+	edges = 0;
 }

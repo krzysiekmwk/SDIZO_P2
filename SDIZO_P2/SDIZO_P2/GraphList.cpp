@@ -79,4 +79,7 @@ void GraphList::clear() {
 	}
 
 	delete[] GLists;
+
+	vertex = 0;
+	edges = 0;
 }
