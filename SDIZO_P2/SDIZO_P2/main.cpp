@@ -8,6 +8,8 @@
 #include "GraphList.h"
 #include "Graph.h"
 
+#include "Dijkstra.h"
+
 using namespace std;
 
 void displayGraphAsMatrix(Graph *gm);
@@ -18,6 +20,12 @@ void fillGraphMatrix(Graph *&gm, bool directed);
 
 void randData(int countOfVertexs, int density, Graph *&gm, bool directed);
 
+
+
+struct Edges {
+	int v1, v2, weight;
+};
+
 int main() {
 	srand(time(NULL));
 
@@ -26,8 +34,16 @@ int main() {
 	GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
 
 	gm = gl;
-	
 	fillGraphMatrix(gm, false);
+	//randData(5, 50, gm, true);
+	displayGraphAsMatrix(gl);
+
+	Dijkstra dijkstra;
+	dijkstra.findPath(gl, 5, 2);
+
+	/*gm = gl;
+	
+	fillGraphMatrix(gm, true);
 
 	cout << "\n\n";
 	displayGraphAsMatrix(gl);
@@ -37,12 +53,12 @@ int main() {
 
 	gm = gim;
 
-	randData(5, 50, gm, false);
+	randData(5, 25, gm, true);
 	displayGraphAsMatrix(gim);
 	cout << "\n\n\n\n\n";
 	displayGraphAsList(gim);
 	cout << "\n\n\n\n\n";
-	displayIncidenceGraph(gim);
+	displayIncidenceGraph(gim);*/
 
 	int x;
 	cin >> x;
@@ -70,7 +86,7 @@ void displayIncidenceGraph(GraphIncidenceMatrix *gim) {
 
 void displayGraphAsMatrix(Graph *gm) {
 	//Wyswietlenie jak w macierzy sasiedztwa - pokazanie ich wag
-	cout << "\t";
+	/*cout << "\t";
 	for (int j = 0; j < gm->getVertex(); j++) {
 		cout << j << "\t";
 	}
@@ -80,6 +96,13 @@ void displayGraphAsMatrix(Graph *gm) {
 		cout << i << "\t";
 		for (int j = 0; j < gm->getVertex(); j++) {
 			cout << gm->searchWeight(i, j) << "\t";
+		}
+		cout << endl;
+	}*/
+
+	for (int i = 0; i < gm->getVertex(); i++) {
+		for (int j = 0; j < gm->getVertex(); j++) {
+			cout << gm->searchWeight(i, j) << ", ";
 		}
 		cout << endl;
 	}
