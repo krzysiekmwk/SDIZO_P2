@@ -71,6 +71,10 @@ std::vector<int> Dijkstra::findPath(Graph * graph, int startVertex, int endVerte
 			heap.push_back(prev[heap.back()]);
 		}
 		heap.push_back(distances[endVertex]);
+
+		delete[] distances;	//usuniecie wskaznikow, stworzonych na samym poczatku
+		delete[] prev;
+		delete[] visited;
 	}
 
 	return heap;
