@@ -1,17 +1,9 @@
 #include "Dijkstra.h"
 
-struct less_than_key
-{
-	inline bool operator() (const Edge& struct1, const Edge& struct2)
-	{
-		return (struct1.weight < struct2.weight);
-	}
-};
-
-std::vector<int> Dijkstra::findPath(GraphList * gl, int startVertex, int endVertex) {
+std::vector<int> Dijkstra::findPath(Graph * gl, int startVertex, int endVertex) {
 	std::vector<int> heap;
-	std::vector<Edge> list = gl->getConectedVertex(startVertex);
-	if (list.size() != 0 && startVertex != endVertex) { //Koniec. Z poszukiwanego wierzcho³ka nie ma zadnych wyjsc
+	
+	if (startVertex >= 0 && startVertex < gl->getVertex() && endVertex >= 0 && endVertex < gl->getVertex()) { //Koniec. Z poszukiwanego wierzcho³ka nie ma zadnych wyjsc
 		int *distances = new int[gl->getVertex()];
 		int *prev = new int[gl->getVertex()];
 		int *visited = new int[gl->getVertex()];
@@ -24,18 +16,19 @@ std::vector<int> Dijkstra::findPath(GraphList * gl, int startVertex, int endVert
 		distances[startVertex] = 0; // Wierzcholek z ktorego sie zaczyna, ma wartosc 0 (najkrotsza droga).
 
 		/*Dzialanie algorytmu:
-			Bierzemy pierwszy punkt startowy, nastepnie przeszukujemy polaczone wierzcholki i wagi krawedzi
-			Wybieramy ta krawedz, ktora ma najkrotsza droge i idziemy do tamtego wierzcholka.
-			Zaznaczamy ze wierzcholek zostal odwiedzony i znowu przeszukujemy jego sasiadow
-			Nastepnie wybieramy kolejny element, ktory ma namniejsza sciezke, ale ktory nie byl jeszcze odwiedzony
-			Powtarzamy az przejdzie sie wszystkie wierzcholki badz osiagnie cel
+			Zaznaczamy ze wierzcholek zostal odwiedzony przeszukujemy jego sasiadow
+			Aktualizujemy odleglosci do pozostalych widocznych wierzcholkow
+			Aktualizujemy najblizsze wierzcholki o informacje o najkrotszej sciezce (wtedy kazdy wierzcholek dokladnie bedzie wiedzial jaki jest jego poprzednik)
+			Wyszukujemy ta krawedz, ktora ma najkrotsza droge i nie zostala jeszcze odwiedzona i idziemy do tamtego wierzcholka.
+			Jesli to jest juz nasz poszukiwany wierzcholek, to przerywamy algorytm - znalezlismy najkrotsza sciezke
 
-			Jak okaze sie ze nie ma wybranej drogi, to sciagamy wierzcholek ze stosu, a jak jest, to idziemy do niego i wrzucamy na stos
+			Algorytm w najgorszym przypadku, bedzie musial przeszukac wszystkie mozliwe wierzcholki i uaktualnic droge do nich
 		*/
+		//= gl->getConectedVertex(startVertex);
 		int actualVertex = startVertex;
 		for (int i = 0; i < gl->getVertex(); i++) {
 			visited[actualVertex] = true;
-			list = gl->getConectedVertex(actualVertex);	// Pobranie i aktualizacja nowych krawedzi
+			std::vector<Edge> list = gl->getConectedVertex(actualVertex);	// Pobranie i aktualizacja nowych krawedzi
 
 			for (int i = 0; i < list.size(); i++) {
 				if (distances[list.at(i).v2] > distances[actualVertex] + gl->searchWeight(actualVertex, list.at(i).v2)) {
@@ -62,6 +55,14 @@ std::vector<int> Dijkstra::findPath(GraphList * gl, int startVertex, int endVert
 			}
 		}
 
+
+		/*
+			W tablicy prev[] sa przechowywane informacje, gdzie index tablicy to wierzcholek w grafie
+			a jego wartosc, to poprzedni wierzcholek z ktorym jest polaczony.
+			Wystarczy odszukac ta sciezke od od tylu
+
+			w tablicy distances, sa informacje o odleglosci od punktu startowego, do wszystkich pozostalych wierzcholkow
+		*/
 		heap.push_back(endVertex);
 		for (int j = 0; j < gl->getVertex(); j++) {
 			if (prev[heap.back()] == -1) {

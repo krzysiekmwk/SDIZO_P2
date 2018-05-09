@@ -5,5 +5,5 @@
 
 class Dijkstra {
 public:
-	std::vector<int> findPath(GraphList * gl, int startVertex, int endVertex);
+	std::vector<int> findPath(Graph * graph, int startVertex, int endVertex);
 };
