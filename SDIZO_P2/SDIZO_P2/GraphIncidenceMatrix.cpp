@@ -55,6 +55,11 @@ int GraphIncidenceMatrix::searchWeight(int srcVertex, int dstVertex) {
 	return 0;
 }
 
+std::vector<Edge> GraphIncidenceMatrix::getConectedVertex(int vertex) {
+	std::vector<Edge> list;
+	return list;
+}
+
 int ** GraphIncidenceMatrix::getMatrix() {
 	return matrix;
 }

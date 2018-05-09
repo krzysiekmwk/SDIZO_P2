@@ -8,6 +8,7 @@ Vertex::Vertex() {
 GraphList::GraphList(){}
 
 GraphList::GraphList(int vertex, int edges, bool simetric) {
+	clear();
 	setGraph(vertex, edges, simetric);
 }
 

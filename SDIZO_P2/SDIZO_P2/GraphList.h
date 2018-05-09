@@ -1,7 +1,5 @@
 #pragma once
 #include "Graph.h"
-#include "Edge.h"
-#include <vector>
 
 class Vertex {
 public:

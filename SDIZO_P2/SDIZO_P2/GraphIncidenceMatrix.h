@@ -11,6 +11,7 @@ public:
 	int **getMatrix();
 	void clear();
 	void setGraph(int vertex, int edges, bool simetric);
+	std::vector<Edge> getConectedVertex(int vertex);
 
 private:
 	int *weights;
