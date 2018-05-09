@@ -1,14 +1,14 @@
 #include "Dijkstra.h"
 
-std::vector<int> Dijkstra::findPath(Graph * gl, int startVertex, int endVertex) {
+std::vector<int> Dijkstra::findPath(Graph * graph, int startVertex, int endVertex) {
 	std::vector<int> heap;
 	
-	if (startVertex >= 0 && startVertex < gl->getVertex() && endVertex >= 0 && endVertex < gl->getVertex()) { //Koniec. Z poszukiwanego wierzcho³ka nie ma zadnych wyjsc
-		int *distances = new int[gl->getVertex()];
-		int *prev = new int[gl->getVertex()];
-		int *visited = new int[gl->getVertex()];
+	if (startVertex >= 0 && startVertex < graph->getVertex() && endVertex >= 0 && endVertex < graph->getVertex()) { //Koniec. Z poszukiwanego wierzcho³ka nie ma zadnych wyjsc
+		int *distances = new int[graph->getVertex()];
+		int *prev = new int[graph->getVertex()];
+		int *visited = new int[graph->getVertex()];
 
-		for (int i = 0; i < gl->getVertex(); i++) {
+		for (int i = 0; i < graph->getVertex(); i++) {
 			distances[i] = 999; // Jakas duza liczba - bliska nieskonczonosci. I tak liczby wylosowane to 1-100
 			prev[i] = -1; // Algorytm jeszcze nie odwiedzil zadnego wierzcholka
 			visited[i] = false; //tablica sluzaca do okreslania czy juz jakis wierzcholek nie zostal odwiedzony
@@ -26,20 +26,20 @@ std::vector<int> Dijkstra::findPath(Graph * gl, int startVertex, int endVertex) 
 		*/
 		//= gl->getConectedVertex(startVertex);
 		int actualVertex = startVertex;
-		for (int i = 0; i < gl->getVertex(); i++) {
+		for (int i = 0; i < graph->getVertex(); i++) {
 			visited[actualVertex] = true;
-			std::vector<Edge> list = gl->getConectedVertex(actualVertex);	// Pobranie i aktualizacja nowych krawedzi
+			std::vector<Edge> list = graph->getConectedVertex(actualVertex);	// Pobranie i aktualizacja nowych krawedzi
 
 			for (int i = 0; i < list.size(); i++) {
-				if (distances[list.at(i).v2] > distances[actualVertex] + gl->searchWeight(actualVertex, list.at(i).v2)) {
-					distances[list.at(i).v2] = distances[actualVertex] + gl->searchWeight(actualVertex, list.at(i).v2);
+				if (distances[list.at(i).v2] > distances[actualVertex] + graph->searchWeight(actualVertex, list.at(i).v2)) {
+					distances[list.at(i).v2] = distances[actualVertex] + graph->searchWeight(actualVertex, list.at(i).v2);
 					prev[list.at(i).v2] = actualVertex;
 				}
 			}
 
 			int min = 999; //Bedziemy poszukiwac elementu minimalnego
 			int minVertex = -1;
-			for (int j = 0; j < gl->getVertex(); j++) {
+			for (int j = 0; j < graph->getVertex(); j++) {
 				if (distances[j] < min && visited[j] == false) {
 					min = distances[j];
 					minVertex = j;
@@ -64,7 +64,7 @@ std::vector<int> Dijkstra::findPath(Graph * gl, int startVertex, int endVertex) 
 			w tablicy distances, sa informacje o odleglosci od punktu startowego, do wszystkich pozostalych wierzcholkow
 		*/
 		heap.push_back(endVertex);
-		for (int j = 0; j < gl->getVertex(); j++) {
+		for (int j = 0; j < graph->getVertex(); j++) {
 			if (prev[heap.back()] == -1) {
 				break;
 			}
