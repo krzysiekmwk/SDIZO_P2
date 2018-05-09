@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <ctime>
+#include <algorithm>
 
 #include "GraphMatrix.h"
 #include "GraphIncidenceMatrix.h"
@@ -14,13 +15,20 @@ using namespace std;
 
 void displayGraphAsMatrix(Graph *gm);
 void displayGraphAsList(Graph *gm);
+void displayGraphAsFormForGraphOnline(Graph *gm);
 void displayIncidenceGraph(GraphIncidenceMatrix *gim);
 
 void fillGraphMatrix(Graph *&gm, bool directed);
 
 void randData(int countOfVertexs, int density, Graph *&gm, bool directed);
 
-
+struct less_than_key
+{
+	inline bool operator() (const Edge& struct1, const Edge& struct2)
+	{
+		return (struct1.weight < struct2.weight);
+	}
+};
 
 struct Edges {
 	int v1, v2, weight;
@@ -33,13 +41,26 @@ int main() {
 	GraphList *gl = new GraphList();
 	GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
 
-	gm = gl;
+	gm = gim;
 	fillGraphMatrix(gm, false);
-	//randData(5, 50, gm, true);
-	displayGraphAsMatrix(gl);
+	//randData(8, 80, gm, false);
+	displayGraphAsFormForGraphOnline(gim);
 
 	Dijkstra dijkstra;
-	dijkstra.findPath(gl, 5, 2);
+	vector<int> shortestPath = dijkstra.findPath(gim, 0, 3);
+
+	std::reverse(shortestPath.begin(), shortestPath.end());
+
+	if (shortestPath.size() < 3)
+		cout << "Nie ma takiej drogi" << endl;
+	else {
+		for (int i = 1; i < shortestPath.size(); i++) {
+			cout << shortestPath.at(i) << " ";
+		}
+		cout << "dlugosc: " << shortestPath[0] << endl;
+	}
+
+	cout << "END ALG" << endl;
 
 	/*gm = gl;
 	
@@ -84,9 +105,18 @@ void displayIncidenceGraph(GraphIncidenceMatrix *gim) {
 	cout << "\n\n";
 }
 
+void displayGraphAsFormForGraphOnline(Graph *gm) {
+	for (int i = 0; i < gm->getVertex(); i++) {
+		for (int j = 0; j < gm->getVertex(); j++) {
+			cout << gm->searchWeight(i, j) << ", ";
+		}
+		cout << endl;
+	}
+}
+
 void displayGraphAsMatrix(Graph *gm) {
 	//Wyswietlenie jak w macierzy sasiedztwa - pokazanie ich wag
-	/*cout << "\t";
+	cout << "\t";
 	for (int j = 0; j < gm->getVertex(); j++) {
 		cout << j << "\t";
 	}
@@ -96,13 +126,6 @@ void displayGraphAsMatrix(Graph *gm) {
 		cout << i << "\t";
 		for (int j = 0; j < gm->getVertex(); j++) {
 			cout << gm->searchWeight(i, j) << "\t";
-		}
-		cout << endl;
-	}*/
-
-	for (int i = 0; i < gm->getVertex(); i++) {
-		for (int j = 0; j < gm->getVertex(); j++) {
-			cout << gm->searchWeight(i, j) << ", ";
 		}
 		cout << endl;
 	}
