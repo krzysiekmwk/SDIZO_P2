@@ -55,8 +55,29 @@ int GraphIncidenceMatrix::searchWeight(int srcVertex, int dstVertex) {
 	return 0;
 }
 
-std::vector<Edge> GraphIncidenceMatrix::getConectedVertex(int vertex) {
+std::vector<Edge> GraphIncidenceMatrix::getConectedVertex(int startVertex) {
 	std::vector<Edge> list;
+
+	/*
+		Jesli w aktualnie poszukiwanej krawedzi, poczatkiem startowym jest wierzcholek zadany argumentem
+		To nalezy przeszukac wszystkie pozostale wierzcholki by odnalezc wierzcholek z ktorym jest polaczony i odnalezc wage tej sciezki
+	*/
+
+	for (int i = 0; i < edges; i++) {
+		if (matrix[startVertex][i] == START) {
+			for (int j = 0; j < vertex; j++) {
+				if ((matrix[j][i] == END || matrix[j][i] == START) && startVertex != j) {
+					Edge e;
+					e.v1 = startVertex;
+					e.v2 = j;
+					e.weight = weights[i];
+
+					list.push_back(e);
+				}
+			}
+		}
+	}
+
 	return list;
 }
 
