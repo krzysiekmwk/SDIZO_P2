@@ -10,7 +10,7 @@ struct less_than_key
 	}
 };
 
-void Kruskal::makeMST(Graph * graph) {
+GraphList * Kruskal::makeMST(Graph * graph) {
 	std::vector<Edge> list;
 
 	for (int i = 0; i < graph->getVertex(); i++) {
@@ -21,11 +21,11 @@ void Kruskal::makeMST(Graph * graph) {
 	sort(list.begin(), list.end(), less_than_key());	// Posortowanie ich od najmniejszej do najwiekszej
 
 	// Drzewo MST bedzie przechowywane w nowym grafie. Listowo - bo to rzadki graf z mala liczba krawedzi (n-1)
-	GraphList mst = GraphList();
-	mst.setGraph(graph->getVertex(), graph->getVertex() - 1, true);
+	GraphList *mst = new GraphList();
+	mst->setGraph(graph->getVertex(), graph->getVertex() - 1, true);
 
 	// Wybranie pierwszej najmniejszej krawedzi oraz zapisanie wybranych wierzcholkow
-	mst.insert(list.at(0).v1, list.at(0).v2, list.at(0).weight);
+	mst->insert(list.at(0).v1, list.at(0).v2, list.at(0).weight);
 
 	// wybor kolejnej najmniejszej krawedzi, ale z wierzcholkow, ktore nie utworza cyklu (nie moga dwa na raz byc w tablicy visited)
 	int countEdges = 1;
@@ -33,26 +33,23 @@ void Kruskal::makeMST(Graph * graph) {
 		//bool foundCycle = false;
 		//foundCycle = ;
 		//if(!foundCycle && mst.searchWeight(list.at(i).v1, list.at(i).v2) == 0){
-		if (!mst.isPath(list.at(i).v1, list.at(i).v2, list.at(i).v1, false)) {
-			mst.insert(list.at(i).v1, list.at(i).v2, list.at(i).weight);
+		if (!mst->isPath(list.at(i).v1, list.at(i).v2, list.at(i).v1, false)) {
+			mst->insert(list.at(i).v1, list.at(i).v2, list.at(i).weight);
 			countEdges++;
 		}
 
-		if (countEdges == mst.getEdges())
+		if (countEdges == mst->getEdges())
 			break;
 	}
 
 	// Po sprawdzeniu wszystkich krawedzi, otrzymuje sie najmniejsze drzewo spinajace
-	cout << "TREE:"  << endl;
+	/*cout << "TREE:"  << endl;
 	for (int i = 0; i < mst.getVertex(); i++) {
 		for (int j = 0; j < mst.getVertex(); j++) {
 			cout << mst.searchWeight(i, j) << ", ";
 		}
 		cout << endl;
-	}
+	}*/
+
+	return mst;
 }
-
-//bool Kruskal::isCycle(GraphList * gr, int startVertex, int endVertex, int actualVertex, bool isFounded) {
-
-//}
-

@@ -8,5 +8,5 @@
 
 class Kruskal {
 public:
-	void makeMST(Graph * graph);
+	GraphList* makeMST(Graph * graph);
 };
