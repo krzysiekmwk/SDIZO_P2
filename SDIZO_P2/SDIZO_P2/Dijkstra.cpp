@@ -1,4 +1,5 @@
 #include "Dijkstra.h"
+#include <iostream>
 
 std::vector<int> Dijkstra::findPath(Graph * graph, int startVertex, int endVertex) {
 	std::vector<int> heap;
@@ -63,6 +64,12 @@ std::vector<int> Dijkstra::findPath(Graph * graph, int startVertex, int endVerte
 
 			w tablicy distances, sa informacje o odleglosci od punktu startowego, do wszystkich pozostalych wierzcholkow
 		*/
+
+		for (int j = 0; j < graph->getVertex(); j++) {
+			std::cout << prev[j] << " ";
+		}
+		std::cout << std::endl;
+
 		heap.push_back(endVertex);
 		for (int j = 0; j < graph->getVertex(); j++) {
 			if (prev[heap.back()] == -1) {

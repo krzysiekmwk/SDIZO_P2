@@ -10,6 +10,7 @@
 #include "Graph.h"
 
 #include "Dijkstra.h"
+#include "FordBellman.h"
 
 #include "Kruskal.h"
 #include "Prima.h"
@@ -33,13 +34,13 @@ int main() {
 	//GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
 
 	gm = gl;
-	//fillGraphMatrix(gm, true);
+	fillGraphMatrix(gm, false);
 	cout << "Rand" << endl;
-	randData(7, 100, gm, true);
+	//randData(100, 100, gm, true);
 	displayGraphAsFormForGraphOnline(gl);
 	//displayGraphAsMatrix(gl);
 	cout << "Start" << endl;
-	cout << "Kruskal" << endl;
+	/*cout << "Kruskal" << endl;
 	Kruskal kruskal;
 	GraphList *mst = kruskal.makeMST(gl);
 	displayGraphAsFormForGraphOnline(mst);
@@ -47,7 +48,37 @@ int main() {
 	cout << "Prima" << endl;
 	Prima prima;
 	GraphList *mst2 = prima.makeMST(gl);
-	displayGraphAsFormForGraphOnline(mst2);
+	displayGraphAsFormForGraphOnline(mst2);*/
+
+	cout << "Dijkstra" << endl;
+	Dijkstra dijkstra;
+	vector<int> shortestPath = dijkstra.findPath(gl, 2, 0);
+
+	std::reverse(shortestPath.begin(), shortestPath.end());
+
+	if (shortestPath.size() < 3)
+	cout << "Nie ma takiej drogi" << endl;
+	else {
+	for (int i = 1; i < shortestPath.size(); i++) {
+	cout << shortestPath.at(i) << " ";
+	}
+	cout << "dlugosc: " << shortestPath[0] << endl;
+	}
+
+	cout << "FordBellman" << endl;
+	FordBellman fordBellman;
+	vector<int> shortestPath2 = fordBellman.findPath(gl, 2, 0);
+
+	std::reverse(shortestPath2.begin(), shortestPath2.end());
+
+	if (shortestPath2.size() < 3)
+	cout << "Nie ma takiej drogi" << endl;
+	else {
+	for (int i = 1; i < shortestPath2.size(); i++) {
+	cout << shortestPath2.at(i) << " ";
+	}
+	cout << "dlugosc: " << shortestPath2[0] << endl;
+	}
 
 	cout << "END ALG" << endl;
 
