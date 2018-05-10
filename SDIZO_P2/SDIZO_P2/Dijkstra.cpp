@@ -6,7 +6,7 @@ std::vector<int> Dijkstra::findPath(Graph * graph, int startVertex, int endVerte
 	if (startVertex >= 0 && startVertex < graph->getVertex() && endVertex >= 0 && endVertex < graph->getVertex()) { //Koniec. Z poszukiwanego wierzcho³ka nie ma zadnych wyjsc
 		int *distances = new int[graph->getVertex()];
 		int *prev = new int[graph->getVertex()];
-		int *visited = new int[graph->getVertex()];
+		bool *visited = new bool[graph->getVertex()];
 
 		for (int i = 0; i < graph->getVertex(); i++) {
 			distances[i] = 999; // Jakas duza liczba - bliska nieskonczonosci. I tak liczby wylosowane to 1-100
