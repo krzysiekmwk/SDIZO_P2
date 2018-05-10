@@ -33,7 +33,7 @@ void Kruskal::makeMST(Graph * graph) {
 		//bool foundCycle = false;
 		//foundCycle = ;
 		//if(!foundCycle && mst.searchWeight(list.at(i).v1, list.at(i).v2) == 0){
-		if (!isCycle(&mst, list.at(i).v1, list.at(i).v2, list.at(i).v1, false)) {
+		if (!mst.isPath(list.at(i).v1, list.at(i).v2, list.at(i).v1, false)) {
 			mst.insert(list.at(i).v1, list.at(i).v2, list.at(i).weight);
 			countEdges++;
 		}
@@ -52,28 +52,7 @@ void Kruskal::makeMST(Graph * graph) {
 	}
 }
 
-bool Kruskal::isCycle(GraphList * gr, int startVertex, int endVertex, int actualVertex, bool isFounded) {
-	if (isFounded)
-		return true;
-	std::vector<Edge> list = gr->getConectedVertex(actualVertex);
+//bool Kruskal::isCycle(GraphList * gr, int startVertex, int endVertex, int actualVertex, bool isFounded) {
 
-	for (int i = 0; i < list.size(); i++) {
-		if (isFounded)
-			return true;
-		int v = list.at(i).v2;
-
-		if (v == endVertex) {
-			isFounded = true;
-			return true;
-		}
-
-		if (v != startVertex)
-			isFounded = isCycle(*&gr, actualVertex, endVertex, v, isFounded);
-	}
-
-	if (isFounded)
-		return true;
-
-	return false;
-}
+//}
 

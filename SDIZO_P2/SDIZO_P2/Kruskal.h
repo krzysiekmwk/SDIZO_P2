@@ -9,6 +9,4 @@
 class Kruskal {
 public:
 	void makeMST(Graph * graph);
-private:
-	bool isCycle(GraphList * gr, int startVertex, int endVertex, int actualVertex, bool isFounded);
 };

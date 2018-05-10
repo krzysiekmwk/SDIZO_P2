@@ -12,6 +12,7 @@ public:
 	virtual void clear() = 0;
 	virtual void setGraph(int vertex, int edges, bool simetric) = 0;
 	virtual std::vector<Edge> getConectedVertex(int vertex) = 0;
+	bool isPath(int startVertex, int endVertex, int actualVertex, bool isFounded);
 
 protected:
 	int vertex, edges;       // liczba wierzcholkow i krawedzi
