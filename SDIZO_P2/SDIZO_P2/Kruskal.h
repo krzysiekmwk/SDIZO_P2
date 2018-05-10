@@ -1,10 +1,7 @@
 #pragma once
 #include "Graph.h"
 #include "GraphList.h"
-
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include "Sort.h"
 
 class Kruskal {
 public:

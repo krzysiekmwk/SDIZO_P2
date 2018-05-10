@@ -11,6 +11,9 @@
 
 #include "Dijkstra.h"
 
+#include "Kruskal.h"
+#include "Prima.h"
+
 using namespace std;
 
 void displayGraphAsMatrix(Graph *gm);
@@ -22,32 +25,31 @@ void fillGraphMatrix(Graph *&gm, bool directed);
 
 void randData(int countOfVertexs, int density, Graph *&gm, bool directed);
 
-struct less_than_key
-{
-	inline bool operator() (const Edge& struct1, const Edge& struct2)
-	{
-		return (struct1.weight < struct2.weight);
-	}
-};
-
-struct Edges {
-	int v1, v2, weight;
-};
-
 int main() {
 	srand(time(NULL));
 
 	Graph *gm;
 	GraphList *gl = new GraphList();
-	GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
+	//GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
 
-	gm = gim;
+	gm = gl;
 	fillGraphMatrix(gm, false);
-	//randData(8, 80, gm, false);
-	displayGraphAsFormForGraphOnline(gim);
+	cout << "Rand" << endl;
+	randData(5, 100, gm, false);
+	displayGraphAsFormForGraphOnline(gl);
+	//displayGraphAsMatrix(gl);
+	cout << "Start" << endl;
+	Kruskal kruskal;
+	GraphList *mst = kruskal.makeMST(gl);
+	displayGraphAsFormForGraphOnline(mst);
 
-	Dijkstra dijkstra;
-	vector<int> shortestPath = dijkstra.findPath(gim, 0, 3);
+	//Prima prima;
+	//prima.makeMST(gl);
+
+	cout << "END ALG" << endl;
+
+	/*Dijkstra dijkstra;
+	vector<int> shortestPath = dijkstra.findPath(gl, 15, 568);
 
 	std::reverse(shortestPath.begin(), shortestPath.end());
 
@@ -58,9 +60,9 @@ int main() {
 			cout << shortestPath.at(i) << " ";
 		}
 		cout << "dlugosc: " << shortestPath[0] << endl;
-	}
+	}*/
 
-	cout << "END ALG" << endl;
+	
 
 	/*gm = gl;
 	
