@@ -33,18 +33,21 @@ int main() {
 	//GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
 
 	gm = gl;
-	fillGraphMatrix(gm, false);
+	//fillGraphMatrix(gm, true);
 	cout << "Rand" << endl;
-	randData(5, 100, gm, false);
+	randData(7, 100, gm, true);
 	displayGraphAsFormForGraphOnline(gl);
 	//displayGraphAsMatrix(gl);
 	cout << "Start" << endl;
+	cout << "Kruskal" << endl;
 	Kruskal kruskal;
 	GraphList *mst = kruskal.makeMST(gl);
 	displayGraphAsFormForGraphOnline(mst);
 
-	//Prima prima;
-	//prima.makeMST(gl);
+	cout << "Prima" << endl;
+	Prima prima;
+	GraphList *mst2 = prima.makeMST(gl);
+	displayGraphAsFormForGraphOnline(mst2);
 
 	cout << "END ALG" << endl;
 
