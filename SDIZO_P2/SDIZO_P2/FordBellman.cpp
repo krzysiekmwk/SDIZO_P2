@@ -22,7 +22,7 @@ std::vector<int> FordBellman::findPath(Graph * graph, int startVertex, int endVe
 		int wasChange = false;
 		for (int iteration = 0; iteration < graph->getVertex() - 1; iteration++) {
 			wasChange = false;
-			for (int vertex = 0; vertex < graph->getVertex() - 1; vertex++) {
+			for (int vertex = 0; vertex < graph->getVertex(); vertex++) {
 				std::vector<Edge> list = graph->getConectedVertex(vertex);	// Pobranie i aktualizacja nowych krawedzi
 
 				for (int i = 0; i < list.size(); i++) {
