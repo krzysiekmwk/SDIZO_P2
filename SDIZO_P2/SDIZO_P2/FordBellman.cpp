@@ -30,11 +30,10 @@ std::vector<int> FordBellman::findPath(Graph * graph, int startVertex, int endVe
 			// Pobranie i aktualizacja nowych krawedzi
 
 			for (int i = 0; i < list.size(); i++) {
-				int v1 = list.at(i).v1;
-				int v2 = list.at(i).v2;
-				if (distances[v2] == 999 || distances[v2] > distances[v1] + graph->searchWeight(v1, v2)) {
-					distances[v2] = distances[v1] + graph->searchWeight(v1, v2);
-					prev[v2] = v1;
+				Edge e = list.at(i);
+				if (distances[e.v2] == 999 || distances[e.v2] > distances[e.v1] + graph->searchWeight(e.v1, e.v2)) {
+					distances[e.v2] = distances[e.v1] + graph->searchWeight(e.v1, e.v2);
+					prev[e.v2] = e.v1;
 
 					wasChange = true;
 				}

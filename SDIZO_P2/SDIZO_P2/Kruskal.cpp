@@ -20,8 +20,9 @@ GraphList * Kruskal::makeMST(Graph * graph) {
 	// wybor kolejnej najmniejszej krawedzi, ale z wierzcholkow, ktore nie utworza cyklu (nie moga dwa na raz byc w tablicy visited)
 	int countEdges = 1;
 	for (int i = 1; i < list.size(); i++) {
-		if (!mst->isPath(list.at(i).v1, list.at(i).v2, list.at(i).v1, false)) {
-			mst->insert(list.at(i).v1, list.at(i).v2, list.at(i).weight);
+		Edge e = list.at(i);
+		if (!mst->isPath(e.v1, e.v2, e.v1, false)) {
+			mst->insert(e.v1, e.v2, e.weight);
 			countEdges++;
 		}
 

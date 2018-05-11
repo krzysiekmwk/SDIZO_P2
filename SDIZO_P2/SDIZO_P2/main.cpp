@@ -34,10 +34,10 @@ int main() {
 	//GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
 
 	gm = gl;
-	fillGraphMatrix(gm, false);
+	//fillGraphMatrix(gm, false);
 	cout << "Rand" << endl;
-	//randData(100, 100, gm, true);
-	displayGraphAsFormForGraphOnline(gl);
+	randData(100, 100, gm, false);
+	//displayGraphAsFormForGraphOnline(gl);
 	//displayGraphAsMatrix(gl);
 	cout << "Start" << endl;
 	/*cout << "Kruskal" << endl;
@@ -52,7 +52,7 @@ int main() {
 
 	cout << "Dijkstra" << endl;
 	Dijkstra dijkstra;
-	vector<int> shortestPath = dijkstra.findPath(gl, 2, 0);
+	vector<int> shortestPath = dijkstra.findPath(gl, 56, 25);
 
 	std::reverse(shortestPath.begin(), shortestPath.end());
 
@@ -67,7 +67,7 @@ int main() {
 
 	cout << "FordBellman" << endl;
 	FordBellman fordBellman;
-	vector<int> shortestPath2 = fordBellman.findPath(gl, 2, 0);
+	vector<int> shortestPath2 = fordBellman.findPath(gl, 56, 25);
 
 	std::reverse(shortestPath2.begin(), shortestPath2.end());
 

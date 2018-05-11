@@ -36,12 +36,10 @@ GraphList* Prima::makeMST(Graph * graph) {
 			//Jesli nie sa jeszcze polaczone, oraz wybrane wierzcholki nie tworzyly by cyklu
 			//to nalezy dodac najmniejsza krawedz do grafu, przerwac petle i wrocic spowrotem do przeszukania wszystkich wierzcholkow
 			Edge e = list.at(i);
-			int v1 = e.v1;
-			int v2 = e.v2;
-			if (mst->searchWeight(v1, v2) == 0 && !mst->isPath(v1, v2, v1, false)) {
-				visited[v1] = true;
-				visited[v2] = true;
-				mst->insert(v1, v2, e.weight);
+			if (mst->searchWeight(e.v1, e.v2) == 0 && !mst->isPath(e.v1, e.v2, e.v1, false)) {
+				visited[e.v1] = true;
+				visited[e.v2] = true;
+				mst->insert(e.v1, e.v2, e.weight);
 				countEdges++;
 				break;
 			}
