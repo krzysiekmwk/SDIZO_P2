@@ -1,5 +1,4 @@
 #include "FordBellman.h"
-#include <iostream>
 
 std::vector<int> FordBellman::findPath(Graph * graph, int startVertex, int endVertex) {
 	std::vector<int> heap;
@@ -19,27 +18,32 @@ std::vector<int> FordBellman::findPath(Graph * graph, int startVertex, int endVe
 			Co kazda iteracje odwiedzamy wszystkie wierzcholki i aktualizujemy odleglosci do nich w tablicy distances
 			A w tablicy prev ustawiamy skad sie przyszlo do danego wierzcholka
 		*/
+		std::vector<Edge> list;
+		for (int vertex = 0; vertex < graph->getVertex(); vertex++) {	//Pobranie wszystkich mozliwych krawedzi.
+			std::vector<Edge> tmp = graph->getConectedVertex(vertex);
+			list.insert(list.end(), tmp.begin(), tmp.end());
+		}
+
 		int wasChange = false;
 		for (int iteration = 0; iteration < graph->getVertex() - 1; iteration++) {
 			wasChange = false;
-			for (int vertex = 0; vertex < graph->getVertex(); vertex++) {
-				std::vector<Edge> list = graph->getConectedVertex(vertex);	// Pobranie i aktualizacja nowych krawedzi
+			// Pobranie i aktualizacja nowych krawedzi
 
-				for (int i = 0; i < list.size(); i++) {
-					int d1 = distances[list.at(i).v2];
-					int d2 = distances[vertex];
-					int w = graph->searchWeight(vertex, list.at(i).v2);
-					if (distances[list.at(i).v2] == 999 || distances[list.at(i).v2] > distances[vertex] + graph->searchWeight(vertex, list.at(i).v2)) {
-						distances[list.at(i).v2] = distances[vertex] + graph->searchWeight(vertex, list.at(i).v2);
-						prev[list.at(i).v2] = vertex;
+			for (int i = 0; i < list.size(); i++) {
+				int v1 = list.at(i).v1;
+				int v2 = list.at(i).v2;
+				if (distances[v2] == 999 || distances[v2] > distances[v1] + graph->searchWeight(v1, v2)) {
+					distances[v2] = distances[v1] + graph->searchWeight(v1, v2);
+					prev[v2] = v1;
 
-						wasChange = true;
-					}
+					wasChange = true;
 				}
 			}
+
 			if (!wasChange)
 				break;
 		}
+
 
 		/*
 		W tablicy prev[] sa przechowywane informacje, gdzie index tablicy to wierzcholek w grafie
@@ -48,12 +52,6 @@ std::vector<int> FordBellman::findPath(Graph * graph, int startVertex, int endVe
 
 		w tablicy distances, sa informacje o odleglosci od punktu startowego, do wszystkich pozostalych wierzcholkow
 		*/
-
-		for (int j = 0; j < graph->getVertex(); j++) {
-			std::cout << prev[j] << " ";
-		}
-		std::cout << std::endl;
-		
 		heap.push_back(endVertex);
 		for (int j = 0; j < graph->getVertex(); j++) {
 			if (prev[heap.back()] == -1) {
@@ -65,6 +63,7 @@ std::vector<int> FordBellman::findPath(Graph * graph, int startVertex, int endVe
 
 		delete[] distances;	//usuniecie wskaznikow, stworzonych na samym poczatku
 		delete[] prev;
+
 	}
 
 	return heap;
