@@ -31,9 +31,10 @@ std::vector<int> Dijkstra::findPath(Graph * graph, int startVertex, int endVerte
 			std::vector<Edge> list = graph->getConectedVertex(actualVertex);	// Pobranie i aktualizacja nowych krawedzi
 
 			for (int i = 0; i < list.size(); i++) {
-				if (distances[list.at(i).v2] > distances[actualVertex] + graph->searchWeight(actualVertex, list.at(i).v2)) {
-					distances[list.at(i).v2] = distances[actualVertex] + graph->searchWeight(actualVertex, list.at(i).v2);
-					prev[list.at(i).v2] = actualVertex;
+				int v2 = list.at(i).v2;
+				if (distances[v2] > distances[actualVertex] + graph->searchWeight(actualVertex, v2)) {
+					distances[v2] = distances[actualVertex] + graph->searchWeight(actualVertex, v2);
+					prev[v2] = actualVertex;
 				}
 			}
 
