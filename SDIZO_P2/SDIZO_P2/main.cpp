@@ -3,8 +3,8 @@
 #include <fstream>
 #include <ctime>
 #include <algorithm>
+#include <chrono>
 
-#include "GraphMatrix.h"
 #include "GraphIncidenceMatrix.h"
 #include "GraphList.h"
 #include "Graph.h"
@@ -15,7 +15,12 @@
 #include "Kruskal.h"
 #include "Prima.h"
 
+#include "DoubleLinkedList.h"
+#include "Edge.h"
+
 using namespace std;
+
+void showAndChooseMainScreen();
 
 void displayGraphAsMatrix(Graph *gm);
 void displayGraphAsList(Graph *gm);
@@ -26,29 +31,51 @@ void fillGraphMatrix(Graph *&gm, bool directed);
 
 void randData(int countOfVertexs, int density, Graph *&gm, bool directed);
 
+int isProgramWorking;
+bool representation = false; // false - lista | true - macierz
+bool isDirected = false;	// false - skierowany ; true - nieskierowany
+
+auto startTime = std::chrono::high_resolution_clock::now();
+auto elapsed = std::chrono::high_resolution_clock::now() - startTime;
+long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+
+Graph *gm;
+GraphList *gl = new GraphList();
+GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
+vector<int> shortestPath;
+
 int main() {
 	srand(time(NULL));
 
-	Graph *gm;
-	GraphList *gl = new GraphList();
-	//GraphIncidenceMatrix *gim = new GraphIncidenceMatrix();
+	system("cls");
+	cout << "Program testowy. Wpisz cokolwiek oraz powtwierdz eneterem by kontynuowac" << endl;
+	int x;
+	cin >> x;
+
+	isProgramWorking = true;
+
+	while (isProgramWorking)
+	{
+		showAndChooseMainScreen();
+		system("PAUSE");
+	}
 
 	gm = gl;
 	//fillGraphMatrix(gm, false);
 	cout << "Rand" << endl;
-	randData(100, 100, gm, false);
+	//randData(100, 100, gm, false);
 	//displayGraphAsFormForGraphOnline(gl);
 	//displayGraphAsMatrix(gl);
 	cout << "Start" << endl;
-	/*cout << "Kruskal" << endl;
-	Kruskal kruskal;
+	cout << "Kruskal" << endl;
+	/*Kruskal kruskal;
 	GraphList *mst = kruskal.makeMST(gl);
 	displayGraphAsFormForGraphOnline(mst);
 
 	cout << "Prima" << endl;
 	Prima prima;
 	GraphList *mst2 = prima.makeMST(gl);
-	displayGraphAsFormForGraphOnline(mst2);*/
+	displayGraphAsFormForGraphOnline(mst2);
 
 	cout << "Dijkstra" << endl;
 	Dijkstra dijkstra;
@@ -80,46 +107,7 @@ int main() {
 	cout << "dlugosc: " << shortestPath2[0] << endl;
 	}
 
-	cout << "END ALG" << endl;
-
-	/*Dijkstra dijkstra;
-	vector<int> shortestPath = dijkstra.findPath(gl, 15, 568);
-
-	std::reverse(shortestPath.begin(), shortestPath.end());
-
-	if (shortestPath.size() < 3)
-		cout << "Nie ma takiej drogi" << endl;
-	else {
-		for (int i = 1; i < shortestPath.size(); i++) {
-			cout << shortestPath.at(i) << " ";
-		}
-		cout << "dlugosc: " << shortestPath[0] << endl;
-	}*/
-
-	
-
-	/*gm = gl;
-	
-	fillGraphMatrix(gm, true);
-
-	cout << "\n\n";
-	displayGraphAsMatrix(gl);
-	cout << "\n\n\n\n\n";
-	displayGraphAsList(gl);
-	cout << "\n\n\n\n\n";
-
-	gm = gim;
-
-	randData(5, 25, gm, true);
-	displayGraphAsMatrix(gim);
-	cout << "\n\n\n\n\n";
-	displayGraphAsList(gim);
-	cout << "\n\n\n\n\n";
-	displayIncidenceGraph(gim);*/
-
-	int x;
-	cin >> x;
-	return 0;
+	cout << "END ALG" << endl;*/
 }
 
 void displayIncidenceGraph(GraphIncidenceMatrix *gim) {
@@ -274,6 +262,251 @@ void randData(int countOfVertexs, int density, Graph *&gm, bool directed) {
 				countOfEdges--;
 			}
 		}
+	}
+}
+
+void showAndChooseMainScreen() {
+	int choose;
+	system("cls");
+	cout << "SDIZO P2 / Krzysztof Nowakowski / 235053" << endl;
+	cout << "Aktualna reprezentacja: " << (representation ? "macierz" : "lista") << (isDirected ? " nieskierowana" : " skierowana") << endl;
+	cout << "(1) Wybierz reprezentacje, ktora chcesz testowac" << endl;
+	cout << "(2) Wczytaj dane z pliku" << endl;
+	cout << "(3) Wygeneruj losowo graf" << endl;
+	cout << "(4) Algorytm 1 Prima" << endl;
+	cout << "(5) Algorytm 2 Kruskal" << endl;
+	cout << "(6) Algorytm 3 Dijkstra" << endl;
+	cout << "(7) Algorytm 4 Forda-Bellman" << endl;
+	cout << "(8) Wyswietl listowo, macierzowo oraz jako wejscie dla strony http://graphonline.ru/en/create_graph_by_matrix" << endl;
+	cout << "(9) Zakoncz" << endl;
+
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+	cin >> choose;
+
+	cout << "wpisano: " << choose << endl;
+
+	switch (choose) {
+	case 1:
+		// wybor reprezentacji
+		int choose;
+		system("cls");
+		cout << "00 - lista nieskierowana" << endl;
+		cout << "10 - macierz nieskierowana" << endl;
+		cout << "01 - lista skierowana" << endl;
+		cout << "11 - macierz skierowana" << endl;
+
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		cin >> choose;
+
+		cout << "wpisano: " << choose << endl;
+
+		switch (choose) {
+		case 00:
+			representation = false;
+			isDirected = true;
+			break;
+		case 10:
+			representation = true;
+			isDirected = true;
+			break;
+		case 01:
+			representation = false;
+			isDirected = false;
+			break;
+		case 11:
+			representation = true;
+			isDirected = false;
+			break;
+		default:
+			cout << "zla liczba, wybierz ponownie." << endl;
+			system("PAUSE");
+			break;
+		}
+		break;
+	case 2:
+		// wczytanie
+		if (representation)
+			gm = gim;
+		else
+			gm = gl;
+		fillGraphMatrix(gm, isDirected);
+		break;
+	case 3:
+		// losowanie
+		int liczbaWierzcholkow;
+		int gestosc;
+		system("cls");
+		cout << "Podaj liczbe wierzcholkow oraz gestosc grafu" << endl;
+
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		cin >> liczbaWierzcholkow;
+		cin >> gestosc;
+		if (representation)
+			gm = gim;
+		else
+			gm = gl;
+
+		startTime = std::chrono::high_resolution_clock::now();
+
+		randData(liczbaWierzcholkow, gestosc, gm, isDirected);
+
+		elapsed = std::chrono::high_resolution_clock::now() - startTime;
+		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+		cout << "Czas wykonania: " << microseconds << "us" << endl;
+		break;
+	case 4:
+		// Prima
+		system("cls");
+		cout << "Prima" << endl;
+		Prima prima;
+		GraphList *mstPrima;
+
+		startTime = std::chrono::high_resolution_clock::now();
+
+		if (representation)
+			mstPrima = prima.makeMST(gim);
+		else
+			mstPrima = prima.makeMST(gl);
+
+		elapsed = std::chrono::high_resolution_clock::now() - startTime;
+		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+		cout << "Czas wykonania: " << microseconds << "us" << endl;
+
+		displayGraphAsList(gim);
+		cout << "\n\n";
+		displayGraphAsFormForGraphOnline(mstPrima);
+		delete mstPrima;
+		break;
+	case 5:
+		// Kruskal
+		system("cls");
+		cout << "Kruskal" << endl;
+		Kruskal kruskal;
+		GraphList *mstKruskal;
+
+		startTime = std::chrono::high_resolution_clock::now();
+
+		if(representation)
+			mstKruskal = kruskal.makeMST(gim);
+		else
+			mstKruskal = kruskal.makeMST(gl);
+
+		elapsed = std::chrono::high_resolution_clock::now() - startTime;
+		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+		cout << "Czas wykonania: " << microseconds << "us" << endl;
+
+		displayGraphAsList(gim);
+		cout << "\n\n";
+		displayGraphAsFormForGraphOnline(mstKruskal);
+		delete mstKruskal;
+		break;
+	case 6:
+		// Dijkstra
+	{
+		system("cls");
+		cout << "Dijkstra" << endl;
+		int start;
+		int end;
+		cout << "Podaj punkt startowy i koncowy" << endl;
+
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		cin >> start;
+		cin >> end;
+		Dijkstra dijkstra;
+
+		startTime = std::chrono::high_resolution_clock::now();
+
+		if (representation)
+			shortestPath = dijkstra.findPath(gim, start, end);
+		else
+			shortestPath = dijkstra.findPath(gl, start, end);
+
+		elapsed = std::chrono::high_resolution_clock::now() - startTime;
+		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+		cout << "Czas wykonania: " << microseconds << "us" << endl;
+
+		std::reverse(shortestPath.begin(), shortestPath.end());
+
+		if (shortestPath.size() < 3)
+			cout << "Nie ma takiej drogi" << endl;
+		else {
+			for (int i = 1; i < shortestPath.size(); i++) {
+				cout << shortestPath.at(i) << " ";
+			}
+			cout << "dlugosc: " << shortestPath[0] << endl;
+		}
+	}
+		break;
+	case 7:
+		// Ford
+	{
+		system("cls");
+		cout << "Ford Bellman" << endl;
+		int start;
+		int end;
+		cout << "Podaj punkt startowy i koncowy" << endl;
+
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		cin >> start;
+		cin >> end;
+		FordBellman fordBellman;
+
+		startTime = std::chrono::high_resolution_clock::now();
+
+		if (representation)
+			shortestPath = fordBellman.findPath(gim, start, end);
+		else
+			shortestPath = fordBellman.findPath(gl, start, end);
+
+		elapsed = std::chrono::high_resolution_clock::now() - startTime;
+		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+		cout << "Czas wykonania: " << microseconds << "us" << endl;
+
+		std::reverse(shortestPath.begin(), shortestPath.end());
+
+		if (shortestPath.size() < 3)
+			cout << "Nie ma takiej drogi" << endl;
+		else {
+			for (int i = 1; i < shortestPath.size(); i++) {
+				cout << shortestPath.at(i) << " ";
+			}
+			cout << "dlugosc: " << shortestPath[0] << endl;
+		}
+	}
+		break;
+	case 8:
+		//display
+		system("cls");
+		if (representation) {
+			displayGraphAsList(gim);
+			cout << "\n\n";
+			displayGraphAsMatrix(gim);
+			cout << "\n\n";
+			displayGraphAsFormForGraphOnline(gim);
+			cout << "\n\n";
+		}
+		else {
+			displayGraphAsList(gl);
+			cout << "\n\n";
+			displayGraphAsMatrix(gl);
+			cout << "\n\n";
+			displayGraphAsFormForGraphOnline(gl);
+			cout << "\n\n";
+		}
+		break;
+	case 9:
+		//exit
+		isProgramWorking = false;
+		break;
+	default:
+		cout << "zla liczba, wybierz ponownie." << endl;
+		system("PAUSE");
+		break;
 	}
 }
 
