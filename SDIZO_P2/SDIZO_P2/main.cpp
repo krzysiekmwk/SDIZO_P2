@@ -38,6 +38,7 @@ bool isDirected = false;	// false - skierowany ; true - nieskierowany
 auto startTime = std::chrono::high_resolution_clock::now();
 auto elapsed = std::chrono::high_resolution_clock::now() - startTime;
 long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+long long totalTime = 0;
 
 Graph *gm;
 GraphList *gl = new GraphList();
@@ -60,15 +61,44 @@ int main() {
 		system("PAUSE");
 	}
 
+	/*int V[5] = {10, 25, 50, 100, 150};
+	int G[5] = {25, 50, 75, 99};
+
+
+	cout << "LISTA" << endl;
+	cout << "KRUSKAL" << endl;
+	for (int v = 0; v < 5; v++) {
+	for (int g = 0; g < 4; g++) {
+	for (int i = 0; i < 100;i++) {
+	gm = gim;
+	randData(V[v], G[g], gm, false);
+
+	Kruskal kruskal;
+
+	startTime = std::chrono::high_resolution_clock::now();
+
+	GraphList *mst = kruskal.makeMST(gim);
+
+	elapsed = std::chrono::high_resolution_clock::now() - startTime;
+	microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+	totalTime += microseconds;
+	delete mst;
+	gm->clear();
+	}
+	cout << "Time: " << V[v] << " " << G[g] << " " << (totalTime / 100) << " us" << endl;
+	totalTime = 0;
+	}
+	}
+
 	gm = gl;
 	//fillGraphMatrix(gm, false);
-	cout << "Rand" << endl;
+	//cout << "Rand" << endl;
 	//randData(100, 100, gm, false);
 	//displayGraphAsFormForGraphOnline(gl);
 	//displayGraphAsMatrix(gl);
-	cout << "Start" << endl;
-	cout << "Kruskal" << endl;
-	/*Kruskal kruskal;
+	//cout << "Start" << endl;
+	//cout << "Kruskal" << endl;
+	Kruskal kruskal;
 	GraphList *mst = kruskal.makeMST(gl);
 	displayGraphAsFormForGraphOnline(mst);
 
@@ -375,9 +405,12 @@ void showAndChooseMainScreen() {
 		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 		cout << "Czas wykonania: " << microseconds << "us" << endl;
 
-		displayGraphAsList(gim);
+		displayGraphAsList(mstPrima);
+		cout << "\n\n";
+		displayGraphAsMatrix(mstPrima);
 		cout << "\n\n";
 		displayGraphAsFormForGraphOnline(mstPrima);
+
 		delete mstPrima;
 		break;
 	case 5:
@@ -398,9 +431,12 @@ void showAndChooseMainScreen() {
 		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 		cout << "Czas wykonania: " << microseconds << "us" << endl;
 
-		displayGraphAsList(gim);
+		displayGraphAsList(mstKruskal);
+		cout << "\n\n";
+		displayGraphAsMatrix(mstKruskal);
 		cout << "\n\n";
 		displayGraphAsFormForGraphOnline(mstKruskal);
+		
 		delete mstKruskal;
 		break;
 	case 6:
