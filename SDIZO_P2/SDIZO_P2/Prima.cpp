@@ -1,12 +1,12 @@
 #include "Prima.h"
 
-Graph* Prima::makeMST(Graph * graph, bool representation) {
+Graph* Prima::makeMST(Graph * graph, Graph *&mst) {
 	// Drzewo MST bedzie przechowywane w nowym grafie. Listowo - bo to rzadki graf z mala liczba krawedzi (n-1)
-	Graph *mst;
+	/*Graph *mst;
 	if (representation)
 		mst = new GraphIncidenceMatrix();
 	else
-		mst = new GraphList();
+		mst = new GraphList();*/
 
 	mst->setGraph(graph->getVertex(), graph->getVertex() - 1, true);
 	bool *visited = new bool[graph->getVertex()];

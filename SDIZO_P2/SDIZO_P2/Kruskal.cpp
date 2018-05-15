@@ -1,6 +1,6 @@
 #include "Kruskal.h"
 
-GraphList * Kruskal::makeMST(Graph * graph) {
+Graph * Kruskal::makeMST(Graph * graph, Graph *&mst) {
 	std::vector<Edge> list;
 
 	for (int i = 0; i < graph->getVertex(); i++) {
@@ -11,7 +11,7 @@ GraphList * Kruskal::makeMST(Graph * graph) {
 	std::sort(list.begin(), list.end(), less_than_key());	// Posortowanie ich od najmniejszej do najwiekszej
 
 	// Drzewo MST bedzie przechowywane w nowym grafie. Listowo - bo to rzadki graf z mala liczba krawedzi (n-1)
-	GraphList *mst = new GraphList();
+	//GraphList *mst = new GraphList();
 	mst->setGraph(graph->getVertex(), graph->getVertex() - 1, true);
 
 	// Wybranie pierwszej najmniejszej krawedzi oraz zapisanie wybranych wierzcholkow
