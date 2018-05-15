@@ -396,10 +396,14 @@ void showAndChooseMainScreen() {
 
 		startTime = std::chrono::high_resolution_clock::now();
 
-		if (representation)
+		if (representation) {
 			mstPrima = prima.makeMST(gim);
-		else
+			cout << "Waga grafu: " << mstPrima->getWeight() << endl;
+		}	
+		else {
 			mstPrima = prima.makeMST(gl);
+			cout << "Waga grafu: " << mstPrima->getWeight() << endl;
+		}
 
 		elapsed = std::chrono::high_resolution_clock::now() - startTime;
 		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();

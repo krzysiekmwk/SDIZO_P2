@@ -10,6 +10,7 @@ void GraphIncidenceMatrix::setGraph(int vertex, int edges, bool simetric) {
 	this->vertex = vertex;
 	this->edges = edges;
 	this->simetric = simetric;
+	this->graphWeight = 0;
 
 	//Tworzenie macierzy incydencji. Najpierw tablica wierzcholkow, a potem tablica krawedzi
 	matrix = new int *[vertex];
@@ -36,6 +37,8 @@ void GraphIncidenceMatrix::insert(int srcVertex, int dstVertex, int weight) {
 
 	weights[acttualEdge] = weight;		//Waga dla danej krawedzi
 	acttualEdge++;
+
+	graphWeight += weight;
 }
 
 int GraphIncidenceMatrix::searchWeight(int srcVertex, int dstVertex) {

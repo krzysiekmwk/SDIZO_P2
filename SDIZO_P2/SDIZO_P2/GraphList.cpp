@@ -16,6 +16,7 @@ void GraphList::setGraph(int vertex, int edges, bool simetric) {
 	this->vertex = vertex;
 	this->simetric = simetric;
 	this->edges = edges;
+	this->graphWeight = 0;
 
 	GLists = new Vertex *[vertex];
 	for (int i = 0; i < vertex; i++)
@@ -42,6 +43,8 @@ void GraphList::insert(int srcVertex, int dstVertex, int weight) {
 
 		GLists[dstVertex] = element;
 	}
+
+	graphWeight += weight;
 }
 
 int GraphList::searchWeight(int srcVertex, int dstVertex) {

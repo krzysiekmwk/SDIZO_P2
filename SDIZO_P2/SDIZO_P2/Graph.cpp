@@ -12,6 +12,10 @@ int Graph::getEdges() {
 	return edges;
 }
 
+int Graph::getWeight() {
+	return graphWeight;
+}
+
 //Sprawdza czy jest polaczenie dla wybranych wierzcholkow
 //start - wierzcholek od ktorego sie zaczyna poszukiwanie
 //end - do ktorego szukamy drogi

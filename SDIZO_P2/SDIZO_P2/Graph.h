@@ -12,9 +12,11 @@ public:
 	virtual void clear() = 0;
 	virtual void setGraph(int vertex, int edges, bool simetric) = 0;
 	virtual std::vector<Edge> getConectedVertex(int vertex) = 0;
+	int getWeight();
 	bool isPath(int startVertex, int endVertex, int actualVertex, bool isFounded);
 
 protected:
 	int vertex, edges;       // liczba wierzcholkow i krawedzi
 	bool simetric;			//Czy Graf jest symetryczny (spojny / niespojny)
+	int graphWeight;
 };
