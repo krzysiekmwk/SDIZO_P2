@@ -26,6 +26,7 @@ void displayGraphAsMatrix(Graph *gm);
 void displayGraphAsList(Graph *gm);
 void displayGraphAsFormForGraphOnline(Graph *gm);
 void displayIncidenceGraph(GraphIncidenceMatrix *gim);
+void displayListGraph(GraphList *gl);
 
 void fillGraphMatrix(Graph *&gm, bool directed);
 
@@ -196,6 +197,17 @@ void displayGraphAsList(Graph *gm) {
 	}
 }
 
+void displayListGraph(GraphList *gl) {
+	for (int i = 0; i < gl->getVertex(); i++) {
+		cout << "[" << i << "] = ";
+		vector<Edge> list = gl->getConectedVertex(i);
+		for (int j = 0; j < list.size(); j++) {
+			cout << list.at(j).v2 << " ";
+		}
+		cout << endl;
+	}
+}
+
 void fillGraphMatrix(Graph *&gm, bool directed) {
 	string firstLine;
 	string vertex;
@@ -307,7 +319,7 @@ void showAndChooseMainScreen() {
 	cout << "(5) Algorytm 2 Kruskal" << endl;
 	cout << "(6) Algorytm 3 Dijkstra" << endl;
 	cout << "(7) Algorytm 4 Forda-Bellman" << endl;
-	cout << "(8) Wyswietl listowo, macierzowo oraz jako wejscie dla strony http://graphonline.ru/en/create_graph_by_matrix" << endl;
+	cout << "(8) Wyswietl + wejscie dla strony http://graphonline.ru/en/create_graph_by_matrix" << endl;
 	cout << "(9) Zakoncz" << endl;
 
 	cin.clear();
@@ -392,56 +404,71 @@ void showAndChooseMainScreen() {
 		system("cls");
 		cout << "Prima" << endl;
 		Prima prima;
-		Graph *mstPrima;
-
 		startTime = std::chrono::high_resolution_clock::now();
 
 		if (representation) {
-			mstPrima = prima.makeMST(gim, representation);
-			cout << "Waga grafu: " << mstPrima->getWeight() << endl;
+			GraphIncidenceMatrix *mst = new GraphIncidenceMatrix();
+			Graph *g = mst;
+			prima.makeMST(gim, g);
+			displayIncidenceGraph(mst);
+			cout << "Waga grafu: " << mst->getWeight() << endl;
+			cout << "\n\n";
+			displayGraphAsFormForGraphOnline(mst);
+			cout << "\n\n";
+			delete mst;
 		}	
 		else {
-			mstPrima = prima.makeMST(gl, representation);
-			cout << "Waga grafu: " << mstPrima->getWeight() << endl;
+			GraphList *mst = new GraphList();
+			Graph *g = mst;
+			prima.makeMST(gl, g);
+			displayListGraph(mst);
+			cout << "Waga grafu: " << mst->getWeight() << endl;
+			cout << "\n\n";
+			displayGraphAsFormForGraphOnline(mst);
+			cout << "\n\n";
+			delete mst;
 		}
 
 		elapsed = std::chrono::high_resolution_clock::now() - startTime;
 		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 		cout << "Czas wykonania: " << microseconds << "us" << endl;
 
-		displayGraphAsList(mstPrima);
-		cout << "\n\n";
-		displayGraphAsMatrix(mstPrima);
-		cout << "\n\n";
-		displayGraphAsFormForGraphOnline(mstPrima);
-
-		delete mstPrima;
 		break;
 	case 5:
 		// Kruskal
 		system("cls");
 		cout << "Kruskal" << endl;
 		Kruskal kruskal;
-		GraphList *mstKruskal;
 
 		startTime = std::chrono::high_resolution_clock::now();
 
-		if(representation)
-			mstKruskal = kruskal.makeMST(gim);
-		else
-			mstKruskal = kruskal.makeMST(gl);
+		if (representation) {
+			GraphIncidenceMatrix *mst = new GraphIncidenceMatrix();
+			Graph *g = mst;
+			kruskal.makeMST(gim, g);
+			displayIncidenceGraph(mst);
+			cout << "Waga grafu: " << mst->getWeight() << endl;
+			cout << "\n\n";
+			displayGraphAsFormForGraphOnline(mst);
+			cout << "\n\n";
+			delete mst;
+		}
+		else {
+			GraphList *mst = new GraphList();
+			Graph *g = mst;
+			kruskal.makeMST(gl, g);
+			displayListGraph(mst);
+			cout << "Waga grafu: " << mst->getWeight() << endl;
+			cout << "\n\n";
+			displayGraphAsFormForGraphOnline(mst);
+			cout << "\n\n";
+			delete mst;
+		}
 
 		elapsed = std::chrono::high_resolution_clock::now() - startTime;
 		microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 		cout << "Czas wykonania: " << microseconds << "us" << endl;
 
-		displayGraphAsList(mstKruskal);
-		cout << "\n\n";
-		displayGraphAsMatrix(mstKruskal);
-		cout << "\n\n";
-		displayGraphAsFormForGraphOnline(mstKruskal);
-		
-		delete mstKruskal;
 		break;
 	case 6:
 		// Dijkstra
@@ -523,17 +550,13 @@ void showAndChooseMainScreen() {
 		//display
 		system("cls");
 		if (representation) {
-			displayGraphAsList(gim);
-			cout << "\n\n";
-			displayGraphAsMatrix(gim);
+			displayIncidenceGraph(gim);
 			cout << "\n\n";
 			displayGraphAsFormForGraphOnline(gim);
 			cout << "\n\n";
 		}
 		else {
-			displayGraphAsList(gl);
-			cout << "\n\n";
-			displayGraphAsMatrix(gl);
+			displayListGraph(gl);
 			cout << "\n\n";
 			displayGraphAsFormForGraphOnline(gl);
 			cout << "\n\n";
