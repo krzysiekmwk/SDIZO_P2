@@ -392,16 +392,16 @@ void showAndChooseMainScreen() {
 		system("cls");
 		cout << "Prima" << endl;
 		Prima prima;
-		GraphList *mstPrima;
+		Graph *mstPrima;
 
 		startTime = std::chrono::high_resolution_clock::now();
 
 		if (representation) {
-			mstPrima = prima.makeMST(gim);
+			mstPrima = prima.makeMST(gim, representation);
 			cout << "Waga grafu: " << mstPrima->getWeight() << endl;
 		}	
 		else {
-			mstPrima = prima.makeMST(gl);
+			mstPrima = prima.makeMST(gl, representation);
 			cout << "Waga grafu: " << mstPrima->getWeight() << endl;
 		}
 
