@@ -79,6 +79,11 @@ void displayIncidenceGraph(GraphIncidenceMatrix *gim) {
 		cout << endl;
 	}
 
+	cout << "Wagi: ";
+	for (int j = 0; j < gim->getEdges(); j++) {
+		cout << "[" << j << "] = " << gim->getWeightsArray()[j] << " ";
+	}
+
 	cout << "\n\n";
 }
 
@@ -124,7 +129,7 @@ void displayListGraph(GraphList *gl) {
 		cout << "[" << i << "] = ";
 		vector<Edge> list = gl->getConectedVertex(i);
 		for (int j = 0; j < list.size(); j++) {
-			cout << list.at(j).v2 << " ";
+			cout << list.at(j).v2 << ":" << list.at(j).weight << " ";
 		}
 		cout << endl;
 	}

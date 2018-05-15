@@ -9,6 +9,7 @@ public:
 	void insert(int srcVertex, int dstVertex, int weight);
 	int searchWeight(int srcVertex, int dstVertex);
 	int **getMatrix();
+	int *getWeightsArray();
 	void clear();
 	void setGraph(int vertex, int edges, bool simetric);
 	std::vector<Edge> getConectedVertex(int vertex);

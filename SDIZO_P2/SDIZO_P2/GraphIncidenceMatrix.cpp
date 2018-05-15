@@ -88,6 +88,10 @@ int ** GraphIncidenceMatrix::getMatrix() {
 	return matrix;
 }
 
+int * GraphIncidenceMatrix::getWeightsArray() {
+	return weights;
+}
+
 void GraphIncidenceMatrix::clear() {
 	for (int i = 0; i < vertex; ++i)
 		delete[] matrix[i];
